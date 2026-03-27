@@ -1,0 +1,29 @@
+{
+  "skill_name": "docker",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "I have a Python FastAPI app with a requirements.txt. Write me a production-ready Dockerfile that's optimized for size and security. The app runs on port 8000 and the entry point is `uvicorn app.main:app`.",
+      "expected_output": "A multi-stage Dockerfile that: uses python:3.x-slim, separates dependency install from code copy for cache efficiency, creates a non-root user, uses --no-cache-dir for pip, uses exec-form CMD, exposes port 8000, and results in a minimal final image.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "Write a docker-compose.yml for a web app that has: a Node.js API service (built from local Dockerfile), a PostgreSQL 16 database, and a Redis cache. The API needs to wait for both DB and Redis to be healthy before starting. Use named volumes for persistence, put DB and Redis on an internal network not exposed to the host, and load secrets from environment files.",
+      "expected_output": "A docker-compose.yml with three services, healthchecks on postgres and redis, depends_on with condition:service_healthy on the API, named volumes, a private backend network (no host ports for db/redis), env_file usage, and appropriate restart policies.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "My Docker image for a Go service is 800MB. It's built from golang:1.21. How do I shrink it down dramatically? Show me the optimized Dockerfile.",
+      "expected_output": "A multi-stage Dockerfile: golang builder stage with CGO_ENABLED=0 and -ldflags='-s -w', final stage using scratch or distroless, copying only the compiled binary. Should explain why the image was large and how multi-stage fixes it. Final image should be <20MB.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "How do I debug a Docker container that crashes immediately on startup? I can't exec into it because it's already stopped. Walk me through the steps.",
+      "expected_output": "Should cover: docker logs <container>, docker inspect for exit code, running with --entrypoint sh to override and get a shell, checking docker events, using docker run --rm -it to test interactively, and checking the CMD/ENTRYPOINT format (exec vs shell).",
+      "files": []
+    }
+  ]
+}
